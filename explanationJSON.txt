@@ -1,0 +1,34 @@
+The best explanation of JSON I've come across!!
+http://www.atimi.com/simple-json-parsing-swift-2/
+
+Here is an example of a contact record for Johnny Appleseed:
+
+{ 	
+    "type" : "person",
+    "first name" : "Johnny",
+    "last name" : "Appleseed",
+    "nickname" : null,
+    "age" : 42, 
+    "phone numbers" : [
+        {
+            "type" : “work",
+            "number" : "+1 (555) 555-5555"
+        },
+        {
+            "type" : "home",
+            "number" : null
+        }
+    ],
+    "work address" : {
+        "line 1" : "1234 5th Avenue",
+        "line 2" : null,
+	"city" : "Hometown"
+    },
+    "home address" : null
+ }
+
+
+Whether or not you have seen JSON before, you have probably already figured out the data 
+structure: the name and age are simple attributes; the work and home addresses are objects 
+(though we don’t have his home address); 
+and there is a list of phone numbers, each of which is its own object.

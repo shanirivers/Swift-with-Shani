@@ -1,0 +1,27 @@
+{
+  "datetime": "2016-03-26T14:51:04",
+  "country_name": "United States",
+  "breezometer_aqi": 75,
+  "breezometer_color": "#6EC634",
+  "breezometer_description": "Fair Air Quality",
+  "country_aqi": 30,
+  "country_aqi_prefix": "",
+  "country_color": "#00E400",
+  "country_description": "Good air quality",
+  "data_valid": true,
+  "key_valid": true,
+  "random_recommendations": {
+    "children": "Have fun with the kids outside, but stay alert for our notifications",
+    "sport": "Since we inhale more air during sports, you should keep track of changes in air quality for the next few hours",
+    "health": "Exposure to air hazards is dangerous for people with health sensitivities, so it is important to monitor air quality at this time",
+    "inside": "The amount of pollutants in the air is noticeable, but still there is no danger to your health - It is recommended to continue monitoring changes in the coming hours",
+    "outside": "You can go out, but please pay attention for changes in air quality"
+  },
+  "dominant_pollutant_canonical_name": "pm2.5",
+  "dominant_pollutant_description": "Fine particulate matter (<2.5\u00b5m)",
+  "dominant_pollutant_text": {
+    "main": "The dominant pollutant is fine particulate matter (PM2.5).",
+    "effects": "Particles enter the lungs and cause local and systemic inflammation in the respiratory system & heart, thus cause cardiovascular and respiratory diseases such as asthma and bronchitis.",
+    "causes": "Main sources are fuel burning processes in industry, transportation and indoor heating."
+  }
+}
