@@ -156,8 +156,43 @@ Pluto:  0.06*/
 
 
 
+// To use dict keys or values with in an API (application programming interface)
+// that takes an array instance, 
+// initialize a new array with keys or values
+
+/* JavaScript Object Notation = JSON for short, is a common way to transmit data to and 
+from web services. It is simple to use and human-readable, 
+which is why it’s so incredibly popular. */
+
+let airQuality: NSURL = [#FileReference(fileReferenceLiteral: "airquality.json")#]
+let data = NSData(contentsOfURL: airQuality)!
+
+do {
+    let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+    
+    if let airRecommendation = json["random_recommendations"] as? [String:AnyObject] {
+        if let children = airRecommendation["children"] as? String {
+            print("\(children)")
+        }
+    }
+    
+    if let pollutantDescription = (json as! NSDictionary)["dominant_pollutant_description"] as? String {
+        print(pollutantDescription)
+    }
+    
+    if let pollutantText = (json as! NSDictionary)["dominant_pollutant_text"] {
+        print(pollutantText)
+        if let effects = pollutantText["effects"] as? String {
+            print(effects)
+        }
+    }
+    
+} catch {
+    print("error serializing JSON: \(error)")
+}
 
 
+d65e7205c2804d798d581d498e5855b5
 
 
 
