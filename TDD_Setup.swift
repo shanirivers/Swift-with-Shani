@@ -14,10 +14,10 @@ class MyExampleTests : XCTestCase {
     override func tearDownExample() {
     }
 	
-	func testingExample_ShouldBeTrue() {
-		var myNumber = 3
-		XCTAssertTrue(myNumber, 3)
-	}
+    func testingExample_ShouldBeTrue() {
+	var myNumber = 3
+	XCTAssertTrue(myNumber, 3)
+    }
 }
 
 
