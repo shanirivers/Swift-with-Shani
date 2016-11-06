@@ -93,7 +93,8 @@ the sorting should be done using < or >, asc or desc, returns a boolean and a ne
 sorted as requested
 
 *** I will be covering higher-order functions in more detail in another video, but sort as
-well as, map, filter, and reduce are also like sort - they take @ least one func as an input
+well as, map, filter, and reduce are also like sort - they take @ least one func as an 
+input
 */
 
 
@@ -111,19 +112,19 @@ let gameScoresSorted = gameScores.sort(sortAscending)
 
 // Refactor sortAscending function to a closure inline
 
-let gameScoresSortedWithClosure = gameScores.sort({
-    (i: Int, j: Int) -> Bool in
+let gameScoresSortedWithClosure = gameScores.sorted(by: {
+    (i: Int, j:Int) -> Bool in
         return i > j
 })
+
 
 
 gameScoresSortedWithClosure
 
 // Refactor again using type inference
 
-let gameScoresSortedWithClosure_I = gameScores.sort({ i, j in i > j})
-
-gameScoresSortedWithClosure_I
+let gameScoresSortedInferred = gameScores.sorted(by: { i, j in i > j})
+gameScoresSortedInferred
 
 // Short-hand parameter names
 /*
@@ -143,16 +144,19 @@ Here, $0 and $1 refer to the closure’s first and second String arguments.
 
 */
 
-gameScores.sort({ return $0 < $1 })
+var gamesScoresSortedShort = gameScores.sorted(by: { return $0 > $1}) // $2, $3..
+gamesScoresSortedShort
+
 
 // CAPTURING VALUES 
 
 /* 
 
-Closures can capture constants & variables from surrounding context in which it's defined
+Closures can capture constants & variables from surrounding context 
+in which it's defined
 
 
-It can refer to and modify the values of the const/variables from in/in its body
+It can refer to and modify the values of the const/variables from within its body
 even if the original scope has defined them doesn't exist any more
 */
 //GLOBAL
@@ -195,15 +199,16 @@ func makeDeduction (start: Int, step: Int) -> () -> Int {
 }
 
 var someRandomNumber = 100
-var decreasing = makeDeduction(10, step: 1)
+var decreasing = makeDeduction(start: 10, step: 2)
 decreasing()
 decreasing()
 someRandomNumber += decreasing()
 
-var decreasingAgain = makeDeduction(-10, step: 3)
+var decreasingAgain = makeDeduction(start: 1, step: 2)
 decreasingAgain()
 decreasingAgain()
 someRandomNumber += decreasingAgain()
+
 
 
 // Another example
@@ -221,11 +226,11 @@ var cellCultureCount = 503
 let growBy100 = increaseCellCount(forCount: 100)
 growBy100()
 growBy100()
-currentPopulation += growBy100()
-
+cellCultureCount += growBy100()
 
 var anotherCellColony = 123
 let growBy20 = increaseCellCount(forCount: 20)
+growBy20()
 growBy20()
 anotherCellColony += growBy20()
 
@@ -242,7 +247,7 @@ Closures are reference types. This means that when you assign a closure to more 
 
 // a closure that take one Int and return an Int
 var double: (Int) -> (Int) = { x in
-    return 2 * x
+return 2 * x
 }
 
 double(2) // 4
@@ -251,6 +256,8 @@ double(2) // 4
 var alsoDouble = double
 
 alsoDouble(3) // 6
+
+
 
 // Another example using the cell tracker
 let anotherGrowBy100 = growBy100
@@ -342,24 +349,42 @@ let numberNames = numbers.map {
 }
 
 // Another example - *** MAKE SURE TO MENTION THAT THE Cocoa LIBRARY IS USED ***
-var myLabel = NSTextField(frame: CGRectMake(0,0,200,50))
+// var myLabel = NSTextField(frame: CGRectMake(0,0,200,50))
+// 
+// myLabel.backgroundColor = NSColor.purpleColor()
+// let colorNames = [ "red": NSColor.redColor(), "blue": NSColor.blueColor(), "green": NSColor.greenColor(),
+//     "orange": NSColor.orangeColor(), "purple": NSColor.purpleColor()]
+// 
+// let colorStrings = ["blue", "green", "red", "orange", "purple"]
+// 
+// let colors = colorStrings.map {
+//     (stringNames) -> NSColor in
+//     var output: NSColor
+//     output = colorNames[stringNames]!
+//     return output
+// }
+// 
+// myLabel.backgroundColor = colors[0]
+// myLabel.backgroundColor = colorNames["red"]
 
-myLabel.backgroundColor = NSColor.purpleColor()
-let colorNames = [ "red": NSColor.redColor(), "blue": NSColor.blueColor(), "green": NSColor.greenColor(),
-    "orange": NSColor.orangeColor(), "purple": NSColor.purpleColor()]
+//: UPDATED CODE FOR SWIFT 3
 
-let colorStrings = ["blue", "green", "red", "orange", "purple"]
+var myLabel = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 50))
+myLabel.backgroundColor = NSColor.purple
 
-let colors = colorStrings.map {
-    (stringNames) -> NSColor in
+let colorNames = ["red": NSColor.red, "blue": NSColor.blue, "purple": NSColor.purple]
+let colorStrings = ["red", "blue", "purple"]
+
+
+let colors = colorStrings.map { (stringNames) -> NSColor in
     var output: NSColor
     output = colorNames[stringNames]!
     return output
 }
 
-myLabel.backgroundColor = colors[0]
-myLabel.backgroundColor = colorNames["red"]
+colors
 
+myLabel.backgroundColor = colors[2]
 
 // filter(_:) - selects elements of array which satisfy a certain condition, like map, can be 
 // called on
@@ -440,6 +465,118 @@ let shortHandSum = someNumbers.filter { $0 % 2 != 0
     }.reduce(0) { $0 + $1 }
 
 shortHandSum
+
+
+
+/*  NONESCAPING CLOSURE - a closure is said to escape a func when it's passed as an argument
+                          to the func BUT is called after the func returns
+
+// PULP FICTION REFERENCE: JULES & VINCENT - @noescape tells the compiler that the passed-in 
+closure can NOT be used outside the func
+its passed into, enables control-flow-like functions to be more transparent about their behavior
+*/
+
+// SYNTAX
+func someFunction (@noescape someClosure: () -> Void) {
+    // some code
+}
+
+// An example of a method that has a @noescape, sort(_:)
+var someArray = ["Pitt", "Brett", "Mr. Wallace"]
+var array = someArray.sort({i, j in i > j})
+
+array
+
+/* JULES (Autoclosure) & VINCENT (noescape) - @noescape tells the compiler that the passed-in closure
+can NOT be used outside the func its passed into, enables control-flow-like functions to be more 
+transparent about their behavior */
+
+var closureVariable: (() -> Void)?
+
+func prepareToTakeBriefcase (@noescape avengence: () -> Void) {
+    // 1. Can't store it
+//    closureVariable = avengence
+    
+    // 2. Can't capture it in another non-@noescape closure
+//    tryToLetTheClosureEscape(avengence)
+//    tryToLetTheClosureEscape() {
+//        prep ()
+//    }
+    
+    // 3. Can't run asynchronously
+//    dispatch_async(dispatch_get_main_queue(), avengence)
+    
+    // But you can capture it in another function that has a @noescape closure as a parameter
+    
+}
+
+func tryToLetTheClosureEscape(@noescape fleeingClosure: () -> ()) {
+//    closureVariable = fleeingClosure
+}
+
+
+
+/* AUTOCLOSURE - is a closure the automatically created to wrap an expression passed in as an 
+argument to a function. When called it returns the value of the expression wrapped inside it.
+
+*/
+
+
+//Consider a function that takes one argument, a simple closure that takes no argument:
+
+func f(pred: () -> Bool) {
+    if pred() {
+        print("It's true")
+    }
+}
+///To call this function, pass in a closure
+
+f({2 > 1})
+// "It's true"
+//If we omit the braces, we are passing in an expression and that creates an error:
+
+//f(2 > 1)  // error: could not find an overload for '>' that accepts the supplied arguments
+
+/*@autoclosure creates an automatic closure around the expression - syntactic convenience. 
+
+So when the caller writes an expression like 2 > 1, it's automatically wrapped into a closure 
+to become {2 > 1} before it is passed to f. So if we apply this to the function f: */
+
+
+func f(@autoclosure pred: () -> Bool) { // show (escaping) too 
+    if pred() {
+        print("It's true")
+    }
+    tryToLetTheClosureEscape(pred)
+}
+f(2 > 1)
+
+/* AUTOCLOSURE implies the @noescape attribute so if you want the closure to escape you have to
+use @autoclosure(escaping) form of the attribute */
+
+func tryToLetTheAutoClosureEscape(@noescape fleeingClosure: () -> Bool) {
+    //    closureVariable = fleeingClosure
+}
+
+
+///So it works with just an expression without the need to wrap it in a closure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
