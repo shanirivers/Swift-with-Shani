@@ -286,8 +286,9 @@ applyKTimes(3, myClosure)
 
 // TRAILING CLOSURES
 /*
-    If you need to pass a long closure expression as a function's final arg then write a "trailing" closure,
-    it's basically a closure written after and outside the paratheses of the func it supports
+    If you need to pass a long closure expression as a function's final arg then write a 
+    trailing" closure,it's basically a closure written after and outside the 
+    paratheses of the func it supports
 
     Syntax: */
 
@@ -297,29 +298,34 @@ applyKTimes(3, myClosure)
 
 //Without a trailing closure:
     someFuncThatTakesClosure ({
-        // closure body here
+        // here you will have the closure body
     })
 
 //With a trailing closure:
     someFuncThatTakesClosure(){ /* trailing closure body here */ }
 
 
-// EXAMPLE
+// EXAMPLE - returns a sum of numbers, set starting num and accept a closure that does some work
 
-func sum (begin: Int, end: Int, f: (Int) -> Int) -> Int {
-    var sum = 0
+func sum (begin: Int, end: Int, closureOn: (Int) -> Int) -> Int {
+    var runningTotal = 0
+    
     for i in begin...end {
-        sum += f(i)
+        runningTotal += closureOn(i)
     }
-    return sum
+    return runningTotal
 }
 
 // sum of 1st 5 squares
 sum (1, end: 5){ $0 * $0 }
 
-// sum of 1st 10 numbers
-let sumNumber = sum(1, end: 10) { $0 }
-sumNumber
+// Sum 1st 5 squares
+var sum5Square = sum(begin: 1, end: 10) { $0 * $0 }
+
+// Sum of 1st 10 numbers
+
+var sumOf10numbers = sum(begin: 1, end: 10) { $0 }
+sumOf10numbers
 
 
 
@@ -327,10 +333,12 @@ sumNumber
 // HIGHER ORDER FUNCTIONS
 
 // sort(_:)
-let names = ["Bob", "Mary", "Joe", "Sue", "Evie"]
-var sortNamesAsc = names.sort()
-var sortNamesReversed = names.sort() { $0 > $1 }
-sortNamesReversed
+let names = ["Bob", "Mary", "Zander", "Joe", "Evie"]
+
+var sortNamesAsc = names.sorted() //*** new syntax for Swift 3 ***
+var sortNamesDesc = names.sorted() { $0 > $1 } //*** new syntax for Swift 3 ***
+sortNamesDesc
+
 
 
 // map(_:) - transforms an array using a function, map contents from one value to another
@@ -338,15 +346,15 @@ sortNamesReversed
     different type) for that itme in a new array containing new mapped values
 */
 
-let digitNames = [ 0: "zero", 1: "one", 2: "two", 3: "three"]
-let numbers = [1,2,3,0]
+let digitName = [ 0: "zero", 1: "one", 2: "two", 3: "three"]
+let numbers = [ 1, 2, 3, 0 ]
 
-let numberNames = numbers.map {
-    (number) -> String in
+let numberNames = numbers.map { (number) -> String in
     var output = ""
-    output = digitNames[number]! + output
+    output = digitName[number]! + output
     return output
 }
+
 
 // Another example - *** MAKE SURE TO MENTION THAT THE Cocoa LIBRARY IS USED ***
 // var myLabel = NSTextField(frame: CGRectMake(0,0,200,50))
