@@ -1,4 +1,4 @@
-// TDD In Swift Playgrounds - forked from sshrpe and modified by Shani https://github.com/shanirivers/TDDSwiftPlayground
+// TDD In Swift Playgrounds - forked from sshrpe and modified by Shani https://github.com/shanirivers/Swift-with-Shani/blob/master/TDD_Setup.swift
 // Practice with Katas  http://agilekatas.co.uk/katas
 
 // First: make sure you import XCTest:
