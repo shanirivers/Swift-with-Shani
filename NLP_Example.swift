@@ -150,8 +150,6 @@ namedTagger.enumerateTags(in: namedRange, scheme: .nameType,
 })
 
 
-// -- Combining multiple tag schemes ???
-
 
 
 
